@@ -13,8 +13,8 @@ namespace DrakiaXYZ_MapInfoExtractor
 
 		static void Main(string[] args)
 		{
-            // First, extract the "BuildSettings/scenes" array from "globalgamemanagers.assets" into "Extract" (This should end up in a folder called globalgamemanagers)
-			// Second, extract all of the map preset bundles from "StreamingAssets\Windows\maps" into "Extract". The script will look for the first folder containing ".bundle" in its name
+			// First, extract "globalmanagers/BuildSettings" from "EscapeFromTarkov_Data\globalgamemanagers" into "Extract" (This should end up in a folder called "globalgamemanagers")
+			// Second, extract all of the map preset bundles from "EscapeFromTarkov_Data\StreamingAssets\Windows\maps" into "Extract". The script will look for the first folder containing ".bundle" in its name
 			string outputDir = ".\\Extract";
 			if (!buildSceneLookup(outputDir))
             {
