@@ -49,7 +49,10 @@ namespace DrakiaXYZ_MapInfoExtractor
             for (int i = 0; i < buildSettings.EditorBuildSettings.m_Scenes.Count; i++)
             {
                 dynamic scene = buildSettings.EditorBuildSettings.m_Scenes[i];
-                _sceneLookup.Add(scene.path, i);
+                if (!_sceneLookup.ContainsKey(scene.path))
+                {
+                    _sceneLookup.Add(scene.path, i);
+                }
             }
 
             return true;
