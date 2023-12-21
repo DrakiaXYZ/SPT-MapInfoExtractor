@@ -33,6 +33,9 @@ namespace DrakiaXYZ_MapInfoExtractor
 
                 break;
             }
+
+            Console.WriteLine("Press Enter to Exit");
+            Console.ReadLine();
         }
 
         static bool buildSceneLookup(string outputDir)
@@ -89,7 +92,7 @@ namespace DrakiaXYZ_MapInfoExtractor
                     continue;
                 }
 
-                _presetCache.Add(meta.guid, preset);
+                _presetCache.Add(meta?.guid, preset);
             }
 
             return true;
@@ -113,7 +116,7 @@ namespace DrakiaXYZ_MapInfoExtractor
                 assetList = new List<string>();
                 processPreset(preset, ref assetList);
 
-                if (preset.MonoBehaviour.ServerName != "")
+                if (!string.IsNullOrEmpty(preset.MonoBehaviour.ServerName))
                 {
                     Dictionary<int, string> assetMap = new Dictionary<int, string>();
                     Console.WriteLine($"{preset.MonoBehaviour.ServerName} consists of the following assets:");
