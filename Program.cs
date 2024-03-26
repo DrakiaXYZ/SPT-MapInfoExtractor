@@ -10,6 +10,7 @@ namespace DrakiaXYZ_MapInfoExtractor
     {
         private static Dictionary<string, int> _sceneLookup = new Dictionary<string, int>();
         private static Dictionary<string, dynamic> _presetCache = new Dictionary<string, dynamic>();
+        private static Dictionary<string, Dictionary<string, string>> _mapScenes = new Dictionary<string, Dictionary<string, string>>();
 
         static void Main(string[] args)
         {
@@ -33,6 +34,8 @@ namespace DrakiaXYZ_MapInfoExtractor
 
                 break;
             }
+
+            File.WriteAllText("maps.json", JsonConvert.SerializeObject(_mapScenes, Formatting.Indented));
 
             Console.WriteLine("Press Enter to Exit");
             Console.ReadLine();
@@ -116,10 +119,16 @@ namespace DrakiaXYZ_MapInfoExtractor
                 assetList = new List<string>();
                 processPreset(preset, ref assetList);
 
-                if (!string.IsNullOrEmpty(preset.MonoBehaviour.ServerName))
+                string mapName = preset.MonoBehaviour.ServerName;
+                if (!string.IsNullOrEmpty(mapName))
                 {
+                    if (!_mapScenes.ContainsKey(mapName))
+                    {
+                        _mapScenes.Add(mapName, new Dictionary<string, string>());
+                    }
+
                     Dictionary<int, string> assetMap = new Dictionary<int, string>();
-                    Console.WriteLine($"{preset.MonoBehaviour.ServerName} consists of the following assets:");
+                    Console.WriteLine($"{mapName} consists of the following assets:");
                     foreach (string asset in assetList)
                     {
                         if (!_sceneLookup.ContainsKey(asset))
@@ -138,6 +147,7 @@ namespace DrakiaXYZ_MapInfoExtractor
 
                     foreach (int levelNumber in assetMap.Keys.OrderBy(x => x))
                     {
+                        _mapScenes[mapName].Add($"level{levelNumber}", assetMap[levelNumber]);
                         Console.WriteLine($"    level{levelNumber}  ({assetMap[levelNumber]})");
                     }
                 }
